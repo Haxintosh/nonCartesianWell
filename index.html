@@ -4,10 +4,69 @@
         <meta charset="UTF-8" />
         <link rel="icon" type="image/svg+xml" href="/vite.svg" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Vite App</title>
+        <title>3 animations</title>
     </head>
     <body>
-        TEST
+        <div class="mainContainer">
+            <h1>3 animations</h1>
+            <div class="subItemsContainer">
+                <div class="subItem">
+                    <div class="subItemHeader">WaveSimulator</div>
+                    <p class="desc">Simulates the wave equation on a grid.</p>
+                    <p class="desc">Controls:</p>
+                    <p class="desc">Left click for wave</p>
+                    <p class="desc">Right click for wall</p>
+                    <p class="desc">Ctrl + right click to remove walls</p>
+                    <p class="desc">Ctrl + X to clear grid</p>
+                    <a href="/nonCartesianWell/src/waveSimulator/index.html"
+                        >Go to WaveSimulator</a
+                    >
+                </div>
+                <div class="subItem">
+                    <div class="subItemHeader">Firework Balls</div>
+                    <p class="desc">
+                        Balls with a countdown that turns into a firework.
+                    </p>
+                    <p class="desc">Controls:</p>
+                    <p class="desc">Right click to spawn more balls</p>
+                    <p class="desc">Space to go faster (hold)</p>
+                    <p class="desc">Click and drag to move the balls</p>
+                        <a href="/nonCartesianWell/src/gravityAssist/index.html"
+                            >Go to Firework Balls</a
+                        >
+                    </p>
+                </div>
+
+                <div class="subItem">
+                    <div class="subItemHeader">Parallax Scroller</div>
+                    <p class="desc">Scrolls the parallax with multiple shapes</p>
+                    <p class="desc">Controls:</p>
+                    <p class="desc">Space to switch the orientation</p>
+                    <p class="desc">Scroll to be faster and slower</p>
+                    <a href="/nonCartesianWell/src/shapesGalore/index.html"
+                        >Go to Parallax Scroller</a
+                    >
+                </div>
+            </div>
+            <div class="imgContainer">
+                <div class="itemImgContainer">
+                    <img
+                        src="/img/dslit.png"
+                        alt="double slit experiment"
+                        class="itemImg"
+                    />
+                    <p class="imgDesc" id="ds">Double slit experiment</p>
+                </div>
+
+                <div class="itemImgContainer">
+                    <img
+                        src="/img/interference.png"
+                        alt="interference"
+                        class="itemImg"
+                    />
+                    <p class="imgDesc">Interference of waves</p>
+            </div>
+        </div>
         <canvas id="app"></canvas>
         <script type="module" src="/src/main.js"></script>
     </body>

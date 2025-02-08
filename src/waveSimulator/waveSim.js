@@ -1,5 +1,8 @@
 import { Engine } from "../js/engine.js";
-
+// https://stackoverflow.com/questions/69949335/how-to-simulate-a-wave-equation
+// wave eq: https://www.youtube.com/watch?v=pN-gi_omIVE
+// https://sg.iwant2study.org/ospsg/index.php/interactive-resources/physics/04-waves/02-general-waves/112-wave-representations-v5
+// https://www.compadre.org/osp/items/detail.cfm
 export class WaveSimulation extends Engine {
   constructor(
     canvasElement,
@@ -15,12 +18,14 @@ export class WaveSimulation extends Engine {
   ) {
     super(canvasElement, width, height, stableFps, callback);
 
+    // simulation constants
     this.gridSize = gridSize || 100;
     this.waveSpeed = waveSpeed || 0.05;
     this.damping = damping || 0.98;
     this.wallReflection = wallReflection || -0.75;
     this.diffractionFactor = diffractionFactor || 0.2;
 
+    // init arrays
     this.heightMap = Array(this.gridSize)
       .fill()
       .map(() => Array(this.gridSize).fill(0));
@@ -33,16 +38,19 @@ export class WaveSimulation extends Engine {
       .fill()
       .map(() => Array(this.gridSize).fill(0));
 
-    // Calculate the size of each cell to maintain a 1:1 aspect ratio
+    // 1:1 aspect ratio
     this.cellSize = Math.min(
       this.canvas.width / this.gridSize,
       this.canvas.height / this.gridSize,
     );
+    // center grid
     this.offsetX = (this.canvas.width - this.cellSize * this.gridSize) / 2;
     this.offsetY = (this.canvas.height - this.cellSize * this.gridSize) / 2;
 
+    // place walls
     this.isDragging = false;
 
+    // listeners
     this.canvas.addEventListener("mousedown", this.handleMouseDown.bind(this));
     this.canvas.addEventListener("mousemove", this.handleMouseMove.bind(this));
     this.canvas.addEventListener("mouseup", this.handleMouseUp.bind(this));
@@ -57,6 +65,7 @@ export class WaveSimulation extends Engine {
     this.colorMap = "jet";
   }
 
+  // canvas x, y to grid x, y
   toGrid(x, y) {
     return {
       gx: Math.floor((x - this.offsetX) / this.cellSize),
@@ -64,6 +73,7 @@ export class WaveSimulation extends Engine {
     };
   }
 
+  // generate a wave at x, y
   addWave(x, y, strength = 5) {
     let { gx, gy } = this.toGrid(x, y);
     if (
@@ -77,6 +87,7 @@ export class WaveSimulation extends Engine {
     }
   }
 
+  // wall at x, y, on wall arr
   addWall(x, y) {
     let { gx, gy } = this.toGrid(x, y);
     if (gx >= 0 && gx < this.gridSize && gy >= 0 && gy < this.gridSize) {
@@ -91,6 +102,7 @@ export class WaveSimulation extends Engine {
     }
   }
 
+  // cleat all  arr
   resetGrids() {
     this.heightMap = this.generateNestedArrays(this.gridSize);
     this.velocityMap = this.generateNestedArrays(this.gridSize);
@@ -102,11 +114,13 @@ export class WaveSimulation extends Engine {
     for (let x = 1; x < this.gridSize - 1; x++) {
       for (let y = 1; y < this.gridSize - 1; y++) {
         if (this.walls[x][y] === 1) {
-          newHeightMap[x][y] = this.heightMap[x][y] * this.wallReflection;
-          this.velocityMap[x][y] *= 0.5;
+          // wall?
+          newHeightMap[x][y] = this.heightMap[x][y] * this.wallReflection; // yes -> apply reflection
+          this.velocityMap[x][y] *= 0.5; // dampen, energy loss hit wall
           continue;
         }
 
+        // height of neighbors, if neightbor wall, diffraction factor
         let left =
           this.walls[x - 1][y] === 0
             ? this.heightMap[x - 1][y]
@@ -124,10 +138,11 @@ export class WaveSimulation extends Engine {
             ? this.heightMap[x][y + 1]
             : this.heightMap[x][y] * this.diffractionFactor;
 
+        // laplacian, diff of avg of neighbors and self
         let laplacian = left + right + top + bottom - 4 * this.heightMap[x][y];
-
+        // update velocity and height from lap
         this.velocityMap[x][y] += laplacian * this.waveSpeed;
-        this.velocityMap[x][y] *= this.damping;
+        this.velocityMap[x][y] *= this.damping; // energy loss
         newHeightMap[x][y] = this.heightMap[x][y] + this.velocityMap[x][y];
       }
     }
@@ -136,12 +151,14 @@ export class WaveSimulation extends Engine {
   }
 
   jetColorMap(value) {
+    // TODO: rename, no longer exactly jet colorma
     const adjustedValue = this.normalize(value - 0.5);
     const color = evaluate_cmap(adjustedValue, this.colorMap, false);
     return { r: color[0], g: color[1], b: color[2] };
   }
 
   renderWaves() {
+    // render tile by tile, bsed on the heightmap
     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
     this.ctx.fillStyle = "white";
     this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
@@ -151,7 +168,7 @@ export class WaveSimulation extends Engine {
         if (this.walls[x][y] === 1) {
           this.ctx.fillStyle = "black";
         } else {
-          let normalizedHeight = (this.heightMap[x][y] + 1) / 2; // Normalize height to [0, 1]
+          let normalizedHeight = (this.heightMap[x][y] + 1) / 2; // normalize FIX: SEE jetcolormap
           let color = this.jetColorMap(normalizedHeight);
           this.ctx.fillStyle = `rgb(${color.r}, ${color.g}, ${color.b})`;
         }
@@ -162,7 +179,7 @@ export class WaveSimulation extends Engine {
           this.cellSize,
         );
 
-        // Draw wall outlines
+        // outlines of wall
         if (this.walls[x][y] === 1) {
           this.ctx.strokeStyle = "white";
           this.ctx.strokeRect(
@@ -181,9 +198,9 @@ export class WaveSimulation extends Engine {
     this.renderWaves();
   }
 
+  // event handlers
   handleMouseDown(event) {
     if (event.button === 2) {
-      // Right-click
       this.isDragging = true;
       if (event.ctrlKey) {
         this.removeWall(event.clientX, event.clientY);
@@ -205,14 +222,12 @@ export class WaveSimulation extends Engine {
 
   handleMouseUp(event) {
     if (event.button === 2) {
-      // Right-click
       this.isDragging = false;
     }
   }
 
   handleClick(event) {
     if (event.button === 0) {
-      // Left-click
       this.addWave(event.clientX, event.clientY);
     }
   }
@@ -232,7 +247,7 @@ export class WaveSimulation extends Engine {
   }
 
   normalize(value) {
-    // Normalize height to [0, 1]
+    // [-1, 1] -> [0, 1]
     const normalizedValue = (value + 1) / 2;
     if (normalizedValue < 0) {
       return 0;

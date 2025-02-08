@@ -5,6 +5,7 @@ const canvasElement = document.getElementById("app");
 const width = window.innerWidth;
 const height = window.innerHeight;
 
+// simulation constants
 const GRID_SIZE = 125;
 const WAVE_SPEED = 0.025;
 const WAVE_DAMPING = 0.995;
@@ -28,6 +29,7 @@ let waveSim = new WS.WaveSimulation(
 
 waveSim.start();
 
+// Dom manips
 let gridSizeElem = document.getElementById("gridSize");
 let waveSpeedElem = document.getElementById("waveSpeed");
 let waveDampingElem = document.getElementById("waveDamping");
@@ -52,6 +54,7 @@ const currentSettings = {
   diffractionFactor: DIFFRACTION_FACTOR,
 };
 
+// on screen settings
 function updateSettings() {
   let newGridSize = document.getElementById("gridSize").value;
   let newWaveSpeed = document.getElementById("waveSpeed").value;
@@ -109,18 +112,21 @@ function openSettings() {
   document.getElementById("bigContainer").style.display = "block";
 }
 
+// TODO: save to local storage?
 function saveSettings() {
   isUiOpen = false;
   updateSettings();
   document.getElementById("bigContainer").style.display = "none";
 }
 
+//[[][][]], nxn
 function generateNestedArrays(n) {
   return Array.from({ length: n }, () => Array.from({ length: n }, () => 0));
 }
 
 document.getElementById("openSettings").addEventListener("click", openSettings);
 document.getElementById("saveSettings").addEventListener("click", saveSettings);
+//chnage colormaps
 viridiumButton.addEventListener("click", () => {
   waveSim.colorMap = "viridis";
   currentSettings.gridColor = "viridis";

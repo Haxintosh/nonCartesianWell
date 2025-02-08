@@ -36,6 +36,7 @@ export class Engine {
   }
 
   update() {
+    // rAF
     if (this.isPaused) {
       return;
     }
