@@ -3,13 +3,13 @@ import { defineConfig } from "vite";
 
 export default defineConfig({
   base: "/nonCartesianWell/",
-  // build: {
-  //     rollupOptions: {
-  //         input: {
-  //             main: resolve(__dirname, 'index.html'),
-  //             game: resolve(__dirname, 'game/game.html'),
-  //             welcome: resolve(__dirname, 'welcome/index.html'),
-  //         },
-  //     },
-  // },
+  build: {
+    rollupOptions: {
+      input: {
+        main: "./index.html",
+        waveSim: "./src/waveSimulator/index.html",
+      },
+      // external: ["./src/js/external/js-colormap.js"],
+    },
+  },
 });
