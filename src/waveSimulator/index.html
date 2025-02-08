@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Vite App</title>
+    </head>
+    <body>
+        <button class="settings" id="openSettings">Settings</button>
+        <div class="bigContainer" id="bigContainer">
+        <div class="settingsContainer">
+            <div class="gridSettings">
+                <header class="sectionHeader">Grid Settings</header>
+                <div class="gridSizeSettings">
+                    <div class="settingLabel">Grid Size</div>
+                    <input type="number" id="gridSize" class="settingInput" placeholder="100"></input>
+                </div>
+                <div class="gridColorSettings">
+                    <div class="settingLabel">Grid Color</div>
+                    <div class="viridis">
+                        <button class="colorButton" id="viridisSelect">Viridis</button>
+                        <img src="/img/viridis.png" alt="viridis" class="colorImg"></img>
+                    </div>
+                    <div class="plasma">
+                        <button class="colorButton" id="plasmaSelect">Plasma</button>
+                        <img src="/img/plasma.png" alt="plasma" class="colorImg"></img>
+                    </div>
+                    <div class="jet">
+                        <button class="colorButton" id="jetSelect">Jet</button>
+                        <img src="/img/jet.png" alt="jet" class="colorImg"></img>
+                    </div>
+                </div>
+            </div>
+            <div class="waveSettings">
+                <header class="sectionHeader">Wave Settings</header>
+                <div class="waveSpeedContainer">
+                    <div class="settingLabel">Wave Speed</div>
+                    <input type="number" class="settingInput" id="waveSpeed" placeholder="0.05"></input>
+                </div>
+
+                <div class="waveDampingContainer">
+                    <div class="settingLabel">Wave Damping</div>
+                    <input type="number" class="settingInput" id="waveDamping" placeholder="0.98"></input>
+                </div>
+
+                <div class="wallReflectionContainer">
+                    <div class="settingLabel">Wall Reflection</div>
+                    <input type="number" class="settingInput" id="wallReflection" placeholder="-0.75"></input>
+                </div>
+
+                <div class="diffractionFactor">
+                    <div class="settingLabel">Diffraction Factor</div>
+                    <input type="number" class="settingInput" id="diffractionFactor" placeholder="0.2"></input>
+                </div>
+            </div>
+        </div>
+        <button class="saveButton" id="saveSettings">Save</button>
+        </div>
+        <div class="controlsContainer">
+            <div class="controlsHeader">Controls</div>
+            <p class="controls">Left click for wave</p>
+            <p class="controls">Right click for wall</p>
+            <p class="controls">Ctrl + left click to delete wall</p>
+            <p class="controls">Ctrl + X to reset</p>
+        </div>
+        <canvas id="app"></canvas>
+        <script type="module" src="./main.js"></script>
+        <script src="/src/js/external/js-colormaps.js"></script>
+    </body>
+</html>

@@ -1,0 +1,132 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    overflow: hidden;
+    user-select: none;
+}
+.bigContainer {
+    z-index: 10;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: fit-content;
+    height: fit-content;
+    transform: translate(-50%, -50%);
+    border: 2px solid black;
+    background-color: white;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    display: none;
+}
+.settingsContainer {
+    display: flex;
+    flex-direction: row;
+    gap: 30px;
+}
+
+.sectionHeader {
+    font-size: 1.5em;
+}
+.waveSettings {
+    gap: 10px;
+    display: flex;
+    flex-direction: column;
+}
+.gridSettings {
+    gap: 10px;
+    display: flex;
+    flex-direction: column;
+}
+
+.settingInput {
+    border: 2px solid black;
+    padding: 3px;
+    margin-top: 2px;
+    transition: 0.2s;
+    outline: none;
+}
+
+.settingInput:focus {
+    border: 2px solid blue;
+    transition: 0.2s;
+}
+
+.settingInput:hover {
+    border: 2px solid blue;
+    transition: 0.2s;
+}
+
+.saveButton {
+    margin-top: 15px;
+    background-color: white;
+    color: black;
+    border: 2px solid black;
+    cursor: pointer;
+    width: 100%;
+    height: 20px;
+    text-align: center;
+    /* font-size: 1em; */
+    transition: 0.2s;
+}
+
+.saveButton:hover {
+    background-color: black;
+    color: white;
+    transition: 0.2s;
+}
+
+.colorButton {
+    margin-top: 15px;
+    background-color: white;
+    color: black;
+    border: 2px solid black;
+    cursor: pointer;
+    width: 100%;
+    height: 20px;
+    text-align: center;
+    /* font-size: 1em; */
+    transition: 0.2s;
+}
+
+.colorImg {
+    width: 100%;
+    height: 15px;
+    border: 2px solid black;
+    margin-top: 5px;
+}
+
+#openSettings {
+    position: absolute;
+    bottom: 20px;
+    left: 10px;
+    background-color: white;
+    color: black;
+    border: 2px solid black;
+    cursor: pointer;
+    width: fit-content;
+    height: fit-content;
+    padding: 5px;
+    text-align: center;
+    transition: 0.2s;
+    z-index: 10;
+}
+
+.controlsContainer {
+    position: absolute;
+    top: 50%;
+    left: 10px;
+    transform: translate(0%, -50%);
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    border: 2px solid black;
+    z-index: 1;
+    width: 150px;
+    padding: 10px;
+}
+
+.controlsHeader {
+    font-size: 1.5em;
+}
